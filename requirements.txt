@@ -10,4 +10,3 @@ sklearn.metrics
 tensorflow 
 tensorflow.keras.models 
 datetime 
-scikit-learn
