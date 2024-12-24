@@ -1,6 +1,6 @@
 pandas 
 numpy 
-matplotlib.pyplot 
+matplotlib
 seaborn
 sklearn.preprocessing 
 sklearn.model_selection 
@@ -10,3 +10,4 @@ sklearn.metrics
 tensorflow 
 tensorflow.keras.models 
 datetime 
+scikit-learn
