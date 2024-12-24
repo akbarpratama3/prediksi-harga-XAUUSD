@@ -1,12 +1,6 @@
-pandas 
-numpy 
+pandas
+numpy
 matplotlib
 seaborn
-sklearn.preprocessing 
-sklearn.model_selection 
-sklearn.metrics 
-tensorflow.keras.layers 
-sklearn.metrics 
-tensorflow 
-tensorflow.keras.models 
-datetime 
+scikit-learn
+tensorflow
