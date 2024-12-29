@@ -44,8 +44,8 @@ def predict_range_and_plot(start_date, end_date):
     })
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(df.index[-100:], df['Price'][-100:], label='Harga Historis', color='#227E19')
-    ax.plot(predicted_df['Tanggal'], predicted_df['Prediksi Harga Penutupan (USD)'], label='Prediksi Harga', color='#EA2641', linestyle='--')
+    ax.plot(df.index[-100:], df['Price'][-100:], label='Real Price', color='#252F75')
+    ax.plot(predicted_df['Tanggal'], predicted_df['Prediksi Harga Penutupan (USD)'], label='Predictions', color='#EA2641', linestyle='--')
     ax.set_title('Prediksi Harga XAU/USD', fontsize=16)
     ax.set_xlabel('Tanggal', fontsize=12)
     ax.set_ylabel('Harga Penutupan (USD)', fontsize=12)
