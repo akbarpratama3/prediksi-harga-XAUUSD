@@ -16,7 +16,7 @@ with open('scaler.pkl', 'rb') as f:
 
 df = pd.read_pickle('dataframe.pkl')
 
-# Function to predict and plot
+# Fungsi ini menerima dua parameter start_date dan end_date yang digunakan untuk memilih rentang tanggal untuk prediksi.
 def predict_range_and_plot(start_date, end_date):
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
@@ -24,12 +24,17 @@ def predict_range_and_plot(start_date, end_date):
     if end_date <= start_date:
         st.warning("Tanggal akhir harus lebih besar dari tanggal awal.")
         return None
-
+    #Menghitung jumlah hari antara start_date dan end_date, yang akan menjadi jumlah hari untuk prediksi.
     total_days = (end_date - start_date).days + 1
-    recent_data = df['Price'][-60:].values.reshape(-1, 1)
+    #Mengambil data harga terbaru (60 hari terakhir) dari dataframe df untuk digunakan sebagai input untuk prediksi.
+    recent_data = df['Price'][-60:].values.reshape(-1, 1) 
+    #Menormalkan data harga terbaru menggunakan scaler yang telah dimuat
     recent_scaled = sc.transform(recent_data)
+    #Mengubah data yang telah dinormalisasi menjadi format yang sesuai untuk input ke model LSTM, yaitu (samples, timesteps, features).
     x_input = np.reshape(recent_scaled, (1, recent_scaled.shape[0], 1))
 
+    #prediksi dilakukan untuk setiap hari dalam rentang waktu yang ditentukan oleh start_date dan end_date
+    #kemudian, Model LSTM memprediksi harga untuk hari berikutnya berdasarkan input x_input
     predictions = []
     for _ in range(total_days):
         next_prediction = model.predict(x_input)
@@ -37,6 +42,8 @@ def predict_range_and_plot(start_date, end_date):
         predictions.append(next_prediction_scaled[0][0])
         x_input = np.append(x_input[:, 1:, :], [[next_prediction[0]]], axis=1)
 
+    #Membuat daftar tanggal prediksi menggunakan pd.date_range(), yang akan digunakan untuk label pada grafik.
+    #DataFrame predicted_df dibuat untuk menyimpan tanggal dan prediksi harga yang dihasilkan.
     prediction_dates = pd.date_range(start=start_date, end=end_date)
     predicted_df = pd.DataFrame({
         'Tanggal': prediction_dates,
@@ -57,7 +64,7 @@ def predict_range_and_plot(start_date, end_date):
 
     st.write(predicted_df)
 
-# Streamlit UI
+# Tampilan Prediksi di Streamlit
 st.title('Prediksi Harga XAU/USD')
 
 start_date = st.date_input("Masukkan tanggal awal", datetime.today())
